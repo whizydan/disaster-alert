@@ -9,12 +9,11 @@ import { cn } from "@/lib/utils"
 import { usePathname } from 'next/navigation'
 
 interface SidebarProps {
-  language: 'en' | 'sw'
   translations: Record<string, string>
   onCollapse?: (collapsed: boolean) => void
 }
 
-export function Sidebar({ language, translations: t, onCollapse }: SidebarProps) {
+export function Sidebar({ translations: t, onCollapse }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const pathname = usePathname()
 
@@ -31,7 +30,7 @@ export function Sidebar({ language, translations: t, onCollapse }: SidebarProps)
     { icon: Calendar, label: t.calendar, href: '/calendar' },
     { icon: MessageSquare, label: t.chatbot, href: '/chatbot' },
     { icon: FileText, label: t.resources, href: '/resources' },
-    { icon: Settings, label: t.settings, href: '/settings' },
+    { icon: Settings, label: t.settings, href: '/settings' }
   ]
 
   return (

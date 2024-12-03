@@ -1,3 +1,4 @@
+// components/pages/community-reports.tsx
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -22,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
+import Image from 'next/image'
 
 interface Report {
   id: number
@@ -39,7 +41,6 @@ export default function CommunityReportsPage() {
   const [reports, setReports] = useState<Report[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [filterType, setFilterType] = useState('all')
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
   // New state variables for form inputs
@@ -79,7 +80,7 @@ export default function CommunityReportsPage() {
         id: 3,
         title: 'Tree Down on 5th Avenue',
         description:
-          'A large tree has fallen across 5th Avenue, blocking both lanes.',
+          "A large tree has fallen across 5th Avenue, blocking both lanes.",
         location: '5th Avenue',
         type: 'Storm Damage',
         timestamp: '2023-06-15T15:20:00Z',
@@ -95,7 +96,6 @@ export default function CommunityReportsPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      setSelectedFile(file)
       const url = URL.createObjectURL(file)
       setPreviewUrl(url)
     }
@@ -105,7 +105,7 @@ export default function CommunityReportsPage() {
     e.preventDefault()
     // Create a new report object
     const newReport: Report = {
-      id: reports.length + 1, // This is a simple increment; in real apps, use unique IDs
+      id: reports.length + 1,
       title,
       description,
       location,
@@ -113,7 +113,7 @@ export default function CommunityReportsPage() {
       timestamp: new Date().toISOString(),
       upvotes: 0,
       comments: 0,
-      image: previewUrl, // Assuming image is already uploaded and previewUrl is the URL
+      image: previewUrl || undefined,
     }
     // Update the reports state by adding the new report at the top
     setReports([newReport, ...reports])
@@ -122,7 +122,6 @@ export default function CommunityReportsPage() {
     setDescription('')
     setLocation('')
     setSelectedType('')
-    setSelectedFile(null)
     setPreviewUrl(null)
   }
 

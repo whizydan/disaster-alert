@@ -2,11 +2,35 @@
 'use client'
 
 import React, { useState, useRef } from 'react'
-import { Send, Mic, Volume2, ImageIcon, Loader2 } from 'lucide-react'
+import { Send, Mic, ImageIcon, Loader2 } from 'lucide-react'
+// Removed unused Volume2 import
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { useLanguage } from '@/components/layout/main-layout'
+
+// Add types for speech recognition
+interface SpeechRecognitionEvent {
+  results: {
+    0: {
+      0: {
+        transcript: string;
+      };
+    };
+  };
+}
+
+interface SpeechRecognitionInstance extends EventTarget {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  onstart: () => void;
+  onend: () => void;
+  onerror: (event: Event) => void;
+  onresult: (event: SpeechRecognitionEvent) => void;
+  start: () => void;
+  stop: () => void;
+}
 
 interface Message {
   role: 'user' | 'assistant'
@@ -139,7 +163,7 @@ export default function Chatbot() {
       return
     }
 
-    const recognition = new (window as any).webkitSpeechRecognition()
+    const recognition = new (window as any).webkitSpeechRecognition() as SpeechRecognitionInstance
     recognition.lang = language === 'en' ? 'en-US' : 'sw-KE'
     
     recognition.onstart = () => {
@@ -147,7 +171,7 @@ export default function Chatbot() {
       setError(null)
     }
     
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript
       setInput(transcript)
     }
@@ -161,6 +185,7 @@ export default function Chatbot() {
     
     recognition.start()
   }
+
 
   return (
     <div className="p-8 h-screen flex flex-col">

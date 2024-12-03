@@ -33,19 +33,8 @@ const translations = {
     settings: 'Settings',
     help: 'Help',
     disasterAlert: 'Disaster Alert',
-    chatbot: 'Chatbot',
-    resources: 'Resources',
-    activeAlerts: 'Active Alerts',
-    sinceLastHour: 'since last hour',
-    highRiskAreas: 'High-Risk Areas',
-    sinceYesterday: 'since yesterday',
-    safeRoutes: 'Safe Routes',
-    newRoutesAdded: 'new routes added',
-    recentAlerts: 'Recent Alerts',
-    view: 'View',
-    high: 'High',
-    medium: 'Medium',
-    low: 'Low',
+    chatbot: 'AI Assistant',
+    resources: 'Resources'
   },
   sw: {
     dashboard: 'Dashibodi',
@@ -56,19 +45,8 @@ const translations = {
     settings: 'Mipangilio',
     help: 'Msaada',
     disasterAlert: 'Tahadhari ya Maafa',
-    chatbot: 'Roboti wa Mazungumzo',
-    resources: 'Rasilimali',
-    activeAlerts: 'Tahadhari Zinazoendelea',
-    sinceLastHour: 'tangu saa iliyopita',
-    highRiskAreas: 'Maeneo ya Hatari Kubwa',
-    sinceYesterday: 'tangu jana',
-    safeRoutes: 'Njia Salama',
-    newRoutesAdded: 'njia mpya zimeongezwa',
-    recentAlerts: 'Tahadhari za Hivi Karibuni',
-    view: 'Tazama',
-    high: 'Juu',
-    medium: 'Wastani',
-    low: 'Chini',
+    chatbot: 'Msaidizi wa AI',
+    resources: 'Rasilimali'
   }
 }
 
@@ -84,7 +62,6 @@ export function MainLayout({ children }: MainLayoutProps) {
     <LanguageContext.Provider value={{ language, setLanguage }}>
       <div className="flex h-screen bg-white">
         <Sidebar 
-          language={language} 
           translations={translations[language]}
           onCollapse={setIsSidebarCollapsed}
         />

@@ -1,6 +1,5 @@
 // lib/groq-client.ts
 import { Groq } from 'groq-sdk'
-import { encode } from 'base64-js'
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY

@@ -1,9 +1,7 @@
 // components/pages/safety-map.tsx
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { MapPin } from 'lucide-react'
-import { Button } from "@/components/ui/button"
+import React, { useState } from 'react' // Remove useEffect
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Select,
@@ -12,12 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
 import dynamic from 'next/dynamic'
 import { useLanguage } from '@/components/layout/main-layout'
-import type { LatLngExpression } from 'leaflet'
 
-// Import styles in a useEffect
+// Import styles
 import 'leaflet/dist/leaflet.css'
 
 const translations = {
@@ -79,7 +75,7 @@ export default function SafetyMap() {
         <CardHeader>
           <CardTitle>{t.weatherAndSafety}</CardTitle>
         </CardHeader>
-        <CardContent className="p-0 flex-1 h-[calc(100vh-250px)]"> {/* Added fixed height */}
+        <CardContent className="p-0 flex-1 h-[calc(100vh-250px)]">
           <MapComponent 
             language={language} 
             selectedLocationType={selectedLocationType}

@@ -6,7 +6,6 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-// Import marker icons
 const markerIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
   iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
@@ -22,9 +21,37 @@ interface MapComponentProps {
   selectedLocationType: string
 }
 
+const locationLabels = {
+  en: {
+    yourLocation: 'Your location',
+    loading: 'Loading map...'
+  },
+  sw: {
+    yourLocation: 'Mahali ulipo',
+    loading: 'Inapakia ramani...'
+  }
+}
+
+// Mock safe locations data
+const safeLocations = {
+  safehouse: [
+    { position: [-1.2821, 36.8219], name: 'Central Safe House' },
+    { position: [-1.2773, 36.8162], name: 'Western Safe House' },
+  ],
+  evacuation: [
+    { position: [-1.2673, 36.8062], name: 'Main Evacuation Point' },
+    { position: [-1.2751, 36.8116], name: 'Secondary Evacuation Point' },
+  ],
+  hospital: [
+    { position: [-1.2931, 36.8172], name: 'Emergency Hospital' },
+    { position: [-1.3031, 36.8072], name: 'City Hospital' },
+  ]
+}
+
 export default function MapComponent({ language, selectedLocationType }: MapComponentProps) {
   const [isClient, setIsClient] = useState(false)
-  const [position, setPosition] = useState<[number, number]>([-1.2921, 36.8219]) // Nairobi coordinates
+  const [position, setPosition] = useState<[number, number]>([-1.2921, 36.8219])
+  const labels = locationLabels[language]
 
   useEffect(() => {
     setIsClient(true)
@@ -38,7 +65,14 @@ export default function MapComponent({ language, selectedLocationType }: MapComp
     )
   }, [])
 
-  if (!isClient) return null
+  if (!isClient) {
+    return <div>{labels.loading}</div>
+  }
+
+  // Filter locations based on selectedLocationType
+  const filteredLocations = selectedLocationType === 'all' 
+    ? Object.values(safeLocations).flat()
+    : safeLocations[selectedLocationType as keyof typeof safeLocations] || []
 
   return (
     <MapContainer
@@ -51,11 +85,25 @@ export default function MapComponent({ language, selectedLocationType }: MapComp
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
+      {/* User's location marker */}
       <Marker position={position} icon={markerIcon}>
         <Popup>
-          Your location
+          {labels.yourLocation}
         </Popup>
       </Marker>
+
+      {/* Safe locations markers */}
+      {filteredLocations.map((location: any, index: number) => (
+        <Marker
+          key={index}
+          position={location.position}
+          icon={markerIcon}
+        >
+          <Popup>
+            {location.name}
+          </Popup>
+        </Marker>
+      ))}
     </MapContainer>
   )
 }
