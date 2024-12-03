@@ -1,9 +1,4 @@
 // global.d.ts
-interface Window {
-  webkitSpeechRecognition: {
-    new (): SpeechRecognition;
-  };
-}
 
 interface SpeechRecognitionErrorEvent extends Event {
   error: string;
@@ -23,4 +18,10 @@ interface SpeechRecognitionInstance extends EventTarget {
   onresult: (event: SpeechRecognitionEvent) => void;
   start: () => void;
   stop: () => void;
+}
+
+interface Window {
+  webkitSpeechRecognition: {
+    new (): SpeechRecognitionInstance;
+  };
 }
