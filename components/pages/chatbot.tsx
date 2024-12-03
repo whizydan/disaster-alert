@@ -1,4 +1,4 @@
-// components/pages/chatbot.tsx
+// src/components/pages/chatbot.tsx
 'use client'
 
 import React, { useState, useRef } from 'react'
@@ -7,26 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { useLanguage } from '@/components/layout/main-layout'
-
-interface SpeechRecognitionEvent extends Event {
-  results: Array<Array<{ transcript: string }>>;
-}
-
-interface SpeechRecognitionInstance extends EventTarget {
-  lang: string;
-  continuous: boolean;
-  interimResults: boolean;
-  onstart: () => void;
-  onend: () => void;
-  onerror: (event: SpeechRecognitionErrorEvent) => void;
-  onresult: (event: SpeechRecognitionEvent) => void;
-  start: () => void;
-  stop: () => void;
-}
-
-interface SpeechRecognitionErrorEvent extends Event {
-  error: string;
-}
 
 interface Message {
   role: 'user' | 'assistant'
@@ -159,29 +139,28 @@ export default function Chatbot() {
       return
     }
 
-    const recognition = new (window as any).webkitSpeechRecognition() as SpeechRecognitionInstance
+    const recognition = new window.webkitSpeechRecognition() as SpeechRecognitionInstance
     recognition.lang = language === 'en' ? 'en-US' : 'sw-KE'
-    
+
     recognition.onstart = () => {
       setIsListening(true)
       setError(null)
     }
-    
+
     recognition.onresult = (event: SpeechRecognitionEvent) => {
       const transcript = event.results[0][0].transcript
       setInput(transcript)
     }
-    
+
     recognition.onerror = () => {
       setIsListening(false)
       setError(t.speechError)
     }
-    
+
     recognition.onend = () => setIsListening(false)
-    
+
     recognition.start()
   }
-
 
   return (
     <div className="p-8 h-screen flex flex-col">
