@@ -6,6 +6,18 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
+// Define types for safe locations
+interface SafeLocation {
+  position: [number, number]
+  name: string
+}
+
+interface SafeLocationsData {
+  safehouse: SafeLocation[]
+  evacuation: SafeLocation[]
+  hospital: SafeLocation[]
+}
+
 const markerIcon = L.icon({
   iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
   iconRetinaUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
@@ -32,8 +44,8 @@ const locationLabels = {
   }
 }
 
-// Mock safe locations data
-const safeLocations = {
+// Mock safe locations data with proper typing
+const safeLocations: SafeLocationsData = {
   safehouse: [
     { position: [-1.2821, 36.8219], name: 'Central Safe House' },
     { position: [-1.2773, 36.8162], name: 'Western Safe House' },
@@ -69,10 +81,10 @@ export default function MapComponent({ language, selectedLocationType }: MapComp
     return <div>{labels.loading}</div>
   }
 
-  // Filter locations based on selectedLocationType
+  // Filter locations based on selectedLocationType with proper typing
   const filteredLocations = selectedLocationType === 'all' 
     ? Object.values(safeLocations).flat()
-    : safeLocations[selectedLocationType as keyof typeof safeLocations] || []
+    : safeLocations[selectedLocationType as keyof SafeLocationsData] || []
 
   return (
     <MapContainer
@@ -93,7 +105,7 @@ export default function MapComponent({ language, selectedLocationType }: MapComp
       </Marker>
 
       {/* Safe locations markers */}
-      {filteredLocations.map((location: any, index: number) => (
+      {filteredLocations.map((location: SafeLocation, index: number) => (
         <Marker
           key={index}
           position={location.position}

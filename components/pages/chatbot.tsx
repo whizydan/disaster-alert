@@ -3,21 +3,13 @@
 
 import React, { useState, useRef } from 'react'
 import { Send, Mic, ImageIcon, Loader2 } from 'lucide-react'
-// Removed unused Volume2 import
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { useLanguage } from '@/components/layout/main-layout'
 
-// Add types for speech recognition
-interface SpeechRecognitionEvent {
-  results: {
-    0: {
-      0: {
-        transcript: string;
-      };
-    };
-  };
+interface SpeechRecognitionEvent extends Event {
+  results: Array<Array<{ transcript: string }>>;
 }
 
 interface SpeechRecognitionInstance extends EventTarget {
@@ -26,10 +18,14 @@ interface SpeechRecognitionInstance extends EventTarget {
   interimResults: boolean;
   onstart: () => void;
   onend: () => void;
-  onerror: (event: Event) => void;
+  onerror: (event: SpeechRecognitionErrorEvent) => void;
   onresult: (event: SpeechRecognitionEvent) => void;
   start: () => void;
   stop: () => void;
+}
+
+interface SpeechRecognitionErrorEvent extends Event {
+  error: string;
 }
 
 interface Message {

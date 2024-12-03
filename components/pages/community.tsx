@@ -23,7 +23,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
-import Image from 'next/image'
 
 interface Report {
   id: number
@@ -43,7 +42,7 @@ export default function CommunityReportsPage() {
   const [filterType, setFilterType] = useState('all')
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
-  // New state variables for form inputs
+  // Form state
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [location, setLocation] = useState('')
@@ -156,11 +155,10 @@ export default function CommunityReportsPage() {
                 Submit a New Report
               </DialogTitle>
               <DialogDescription>
-                Provide details about the situation you're reporting.
+                Provide details about the situation you&apos;re reporting.
               </DialogDescription>
             </DialogHeader>
             <div className="flex-1 overflow-y-auto pr-2">
-              {/* Scrollable content area */}
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="title">Title</Label>
@@ -233,7 +231,6 @@ export default function CommunityReportsPage() {
                   </div>
                 </div>
                 <div className="flex pt-4 mt-4 border-t">
-                  {/* Fixed footer with submit button */}
                   <Button
                     type="submit"
                     className="w-full bg-[#800000] hover:bg-[#600000]"
