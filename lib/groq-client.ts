@@ -1,19 +1,9 @@
 // lib/groq-client.ts
 import { Groq } from 'groq-sdk';
 
-// Define the ChatCompletionMessageParam type if not using a separate types file
-// This step is optional if you've already defined it in types.d.ts
-
-// import { ChatCompletionMessageParam } from 'groq-sdk'; // Removed since it's not exported
-
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
 });
-
-// Import the type from your types file if needed
-// If TypeScript recognizes it globally, no need to import
-// Otherwise, you might need to import it like so:
-// import { ChatCompletionMessageParam } from '../types';
 
 export async function generateResponse(
   prompt: string, 
